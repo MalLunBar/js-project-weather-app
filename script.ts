@@ -8,6 +8,11 @@ const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_K
 
 // DOM elements
 const currentWeatherContainer = document.getElementById('current-weather-container') as HTMLDivElement
+const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
+const weatherIconContainer = document.getElementById('weather-icon-container') as HTMLDivElement
+const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
+const localSunInfo = document.getElementById('local-sun-info') as HTMLDivElement
+
 
 
 // fetch data
@@ -19,12 +24,53 @@ const fetchData = async (url: string) => {
     }
     const data = await response.json()
 
-    console.log('fetched data', data)
+    console.log(data)
+
+    console.log('city:', data.name)
+    console.log('temperature:', data.main.temp)
+    console.log('sunrise:', data.sys.sunrise)
+    console.log('sunset:', data.sys.sunset)
+    console.log('weather icon:', data.weather[0].icon)
+    console.log('weather description:', data.weather[0].description)
+
+    currentWeather.innerHTML = `<p class="big-paragraph">${Math.ceil(data.main.temp)}°C</p>`
+    weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`
+    currentWeatherInfo.innerHTML = `
+      <p class="medium-paragraph">${data.name}</p>
+      <p class="small-paragraph">${data.weather[0].description}</p>`
+    localSunInfo.innerHTML = `
+      <p class="small-paragraph">Sunrise: ${data.sys.sunrise}</p>
+      <p class="small-paragraph">Sunset: ${data.sys.sunset}</p>`
+    
+    return data
 
   } catch (error) {
     console.error('Error:', error)
   }
 }
 
-
 fetchData(CURRENT_URL)
+
+
+
+// current weather
+const createCurrentWeatherObject = () => {
+  // fetch current weather data
+  
+}
+
+
+
+const loadWeather = () => {
+  currentWeather.innerHTML = `<p class="big-paragraph">${obj.temerature}</p>`
+  weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`
+  currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
+  <p class="small-paragraph">${obj.description}</p>`
+  localSunInfo.innerHTML = `<p class="small-paragraph">Sunrise: ${obj.sunrise}</p><p class="small-paragraph">Sunset: ${obj.sunset}</p>`
+  
+  //OBS sunrise och sunset är konstiga DATE-tider. 
+  
+  
+}
+
+//funktion som går igenom iconerna 

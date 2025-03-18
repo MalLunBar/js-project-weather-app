@@ -37,16 +37,12 @@ header {
   display: flex;
   flex-direction: column;
   margin: 0 10px;
-
 }
 
 .current-weather-top{
  display: flex;
  align-items: center;
-
 }
-
-
 
 .local-sun-info {
   display: flex;
