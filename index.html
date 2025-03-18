@@ -12,36 +12,70 @@
     rel="stylesheet"
     href="style.css"
   >
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  >
+
 </head>
 
 <body>
   <header>
     <img
-      src="./assets/menu.png"
+      class="hamburger"
+      src="./assets/hamburger.svg"
       alt="menu-icon"
     >
   </header>
   <main>
     <section class="current-weather-container">
-      <div class="weather-icon-container"></div>
-      <div class="current-weather-info">
-        <div class="current-local-weather"></div>
-        <div class="local-sun-info"></div>
+      <div class="weather-icon-container">
+        <img
+          class="weather-icon"
+          src="./assets/sun.svg"
+          alt="sun-icon"
+        >
       </div>
-      
+      <div class="current-weather-info">
+        <p class="big-paragraph">20 °</p>
+        <p class="medium-paragraph">Stockholm</p>
+        <p class="small-paragraph">sunny</p>
+        <div class="current-local-weather"></div>
+        <div class="local-sun-info">
+          <p class="small-paragraph">sunrise: 06:00</p>
+          <p class="small-paragraph">sunset: 18:00</p>
+        </div>
+      </div>
+
       <button
         class="toggle-forecast-btn"
         type="button"
       >
-      <img src="./assets/chevron-down-solid.svg" alt="">
+        <img
+          src="./assets/chevron-down-solid.svg"
+          alt=""
+        >
       </button>
     </section>
-    
+
 
     <section class="forecast-container">
       <div class="forecast-card">
-        <div class="forecast-day">monday</div>
-        <div class="forecast-weather">icon and degrees</div>
+        <div class="forecast-day">
+          <p>monday</p>
+        </div>
+        <div class="forecast-weather">
+          <p>icon and degrees</p>
+        </div>
       </div>
     </section>
   </main>
@@ -50,4 +84,5 @@
 
 
 <!-- Hej! Ska bara testa lite här nere / Matilda -->
+
 </html>
