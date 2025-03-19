@@ -29,7 +29,10 @@
 </head>
 
 <body>
-  <div class="circle">
+  <div
+    id="current-weather-background"
+    class="current-weather-background"
+  >
     <header>
       <img
         class="hamburger"
@@ -46,20 +49,6 @@
         class="current-weather-top"
         id="current-weather-top"
       >
-
-        <p class="big-paragraph">20°</p>
-
-        <div
-          class="weather-icon-container"
-          id="weather-icon-container"
-        >
-          <img
-            class="weather-icon"
-            src="./assets/sunny-icon.svg"
-            alt="sun-icon"
-          >
-        </div>
-
       </div>
 
       <div
@@ -72,10 +61,7 @@
 
         <div class="current-local-weather"></div>
 
-        <div
-          class="local-sun-info"
-          id="local-sun-info"
-        >
+        <div class="local-sun-info" id="local-sun-info">
           <!-- <p class="small-paragraph">sunrise: 06:00</p>
           <p class="small-paragraph">sunset: 18:00</p> -->
         </div>

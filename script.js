@@ -8,6 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+// enum for weather icons
+var WeatherIcon;
+(function (WeatherIcon) {
+    WeatherIcon["01d"] = "sunny-icon.svg";
+    WeatherIcon["01n"] = "moon-icon.svg";
+    WeatherIcon["02d"] = "partly-cloudy-icon.svg";
+    WeatherIcon["02n"] = "partly-cloudy-night-icon.svg";
+    WeatherIcon["03d"] = "cloudy-icon.svg";
+    WeatherIcon["03n"] = "cloudy-icon.svg";
+    WeatherIcon["04d"] = "cloudy-icon.svg";
+    WeatherIcon["04n"] = "cloudy-icon.svg";
+    WeatherIcon["09d"] = "rainy-icon.svg";
+    WeatherIcon["09n"] = "rainy-icon.svg";
+    WeatherIcon["10d"] = "rainy-icon.svg";
+    WeatherIcon["10n"] = "rainy-icon.svg";
+    WeatherIcon["11d"] = "thunderstorm-icon.svg";
+    WeatherIcon["11n"] = "thunderstorm-icon.svg";
+    WeatherIcon["13d"] = "snow-icon.svg";
+    WeatherIcon["13n"] = "snow-icon.svg";
+    WeatherIcon["50d"] = "mist-icon.svg";
+    WeatherIcon["50n"] = "mist-icon.svg";
+})(WeatherIcon || (WeatherIcon = {}));
 // global variables
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
@@ -16,51 +38,91 @@ const CITY = 'Stockholm';
 const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 // DOM elements
-const currentWeatherContainer = document.getElementById('current-weather-container');
+const currentWeatherBackground = document.getElementById('current-weather-background');
 const currentWeather = document.getElementById('current-weather-top');
-const weatherIconContainer = document.getElementById('weather-icon-container');
 const currentWeatherInfo = document.getElementById('current-weather-info');
-const localSunInfo = document.getElementById('local-sun-info');
-// fetch data
-const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
+// fetch current weather data
+const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch(url);
+        const response = yield fetch(CURRENT_URL);
         if (!response.ok) {
             throw new Error(`Error! Status: ${response.status}`);
         }
         const data = yield response.json();
-        console.log(data);
-        console.log('city:', data.name);
-        console.log('temperature:', data.main.temp);
-        console.log('sunrise:', data.sys.sunrise);
-        console.log('sunset:', data.sys.sunset);
-        console.log('weather icon:', data.weather[0].icon);
-        console.log('weather description:', data.weather[0].description);
-        currentWeather.innerHTML = `<p class="big-paragraph">${Math.ceil(data.main.temp)}°C</p>`;
-        weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`;
-        currentWeatherInfo.innerHTML = `
-      <p class="medium-paragraph">${data.name}</p>
-      <p class="small-paragraph">${data.weather[0].description}</p>`;
-        localSunInfo.innerHTML = `
-      <p class="small-paragraph">Sunrise: ${data.sys.sunrise}</p>
-      <p class="small-paragraph">Sunset: ${data.sys.sunset}</p>`;
-        return data;
+        // get sunrise and sunset time
+        const sunriseTime = new Date(data.sys.sunrise * 1000);
+        const sunsetTime = new Date(data.sys.sunset * 1000);
+        // get weather icon
+        const weatherIcon = WeatherIcon[data.weather[0].icon];
+        // create weather object
+        let currentWeather = {
+            city: data.name,
+            temperature: Math.ceil(data.main.temp),
+            icon: `./assets/${weatherIcon}`,
+            description: data.weather[0].description,
+            sunrise: `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`,
+            sunset: `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`
+        };
+        // display current weather
+        displayCurrentWeather(currentWeather);
+        // check if night and style accordingly
+        isNight(data.sys.sunrise, data.sys.sunset) ?
+            currentWeatherBackground.classList.add('night') :
+            currentWeatherBackground.classList.remove('night');
     }
     catch (error) {
         console.error('Error:', error);
     }
 });
-fetchData(CURRENT_URL);
-// current weather
-const createCurrentWeatherObject = () => {
-    // fetch current weather data
+// display current weather
+const displayCurrentWeather = (weatherObject) => {
+    currentWeather.innerHTML =
+        `
+    <p class='big-paragraph'>${weatherObject.temperature}<p class="celcius">°C</p></p>
+    <div class='weather-icon-container'>
+      <img class='weather-icon' src='${weatherObject.icon}' alt='weather-icon'>
+    </div>
+    `;
+    currentWeatherInfo.innerHTML =
+        `
+    <p class='medium-paragraph'>${weatherObject.city}</p>
+    <p class='small-paragraph'>${weatherObject.description}</p>
+    <div class='local-sun-info'>
+      <p class='small-paragraph'>Sunrise: ${weatherObject.sunrise}</p>
+      <p class='small-paragraph'>Sunset: ${weatherObject.sunset}</p>
+    </div>
+    `;
 };
-const loadWeather = (obj) => {
-    currentWeather.innerHTML = `<p class="big-paragraph">${obj.temerature}</p>`;
-    weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`;
-    currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
-  <p class="small-paragraph">${obj.description}</p>`;
-    localSunInfo.innerHTML = `<p class="small-paragraph">Sunrise: ${obj.sunrise}</p><p class="small-paragraph">Sunset: ${obj.sunset}</p>`;
-    //OBS sunrise och sunset är konstiga DATE-tider. 
+// display forecast data
+// funtion to check if day or night
+const isNight = (sunriseTimestamp, sunsetTimestamp) => {
+    const currentTime = new Date();
+    const sunrise = new Date(sunriseTimestamp * 1000);
+    const sunset = new Date(sunsetTimestamp * 1000);
+    if (currentTime >= sunrise && currentTime <= sunset) {
+        return false;
+    }
+    else {
+        return true;
+    }
 };
-//funktion som går igenom iconerna 
+//Fetch forecast data 
+const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield fetch(FORECAST_URL);
+        if (!response.ok) {
+            throw new Error(`error status: ${response.status}`);
+        }
+        const data = yield response.json();
+        console.log(data);
+        data.list.forEach(item => {
+            console.log(item.dt_txt);
+        });
+    }
+    catch (error) {
+        console.error(`error: ${error}`);
+    }
+});
+// function to show/hide forecast
+fetchCurrentWeather();
+fetchForecastData();

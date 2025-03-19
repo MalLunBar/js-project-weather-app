@@ -12,11 +12,15 @@ body {
 
 }
 
-.circle {
+.current-weather-background {
   background-image: linear-gradient(to right, #8589FF, #E8E9FF);
   clip-path: ellipse(100% 100% at top);
   height: 350px;
 
+}
+
+.current-weather-background.night {
+  background-image: linear-gradient(to right, #060965, #575a95);
 }
 
 header {
@@ -71,6 +75,9 @@ button {
 
 
 /* Paragraphs */
+.celcius {
+  font-size: 34px;
+}
 
 .big-paragraph {
   font-size: 110px;
