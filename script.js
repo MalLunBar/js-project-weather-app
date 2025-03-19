@@ -41,6 +41,7 @@ const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_K
 const currentWeatherBackground = document.getElementById('current-weather-background');
 const currentWeather = document.getElementById('current-weather-top');
 const currentWeatherInfo = document.getElementById('current-weather-info');
+const forecastCard = document.getElementById('forecast-card');
 // fetch current weather data
 const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -114,16 +115,43 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error(`error status: ${response.status}`);
         }
         const data = yield response.json();
-        console.log(data);
+        //go through the list of forecast data
         data.list.forEach(item => {
             const timeStamp = new Date(item.dt * 1000);
             console.log(timeStamp);
+            const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' });
+            console.log(day);
+            const weatherIcon = WeatherIcon[item.weather[0].icon];
+            //Create forecast object
+            const forecast = {
+                day: day,
+                icon: `./assets/${weatherIcon}`,
+                minTemp: Math.ceil(item.main.temp_min),
+                maxTemp: Math.ceil(item.main.temp_max)
+            };
+            //display forecast data
+            displayForecastData(forecast);
+            console.log(forecast);
         });
     }
     catch (error) {
         console.error(`error: ${error}`);
     }
 });
+const displayForecastData = (forecastObject) => {
+    forecastCard.innerHTML =
+        `
+    <div class='forecast-day'>
+      <p class='small-paragraph'>${forecastObject.day}</p>
+      <div class='forecast-weather'>
+        <img class='forecast-icon' src='${forecastObject.icon}' alt='weather-icon'>
+      </div>
+      <div class= "min-max">
+      <p class='small-paragraph'>${forecastObject.maxTemp}° / ${forecastObject.minTemp}°C</p>
+      </div>
+    </div>
+    `;
+};
 // function to show/hide forecast
 fetchCurrentWeather();
 fetchForecastData();

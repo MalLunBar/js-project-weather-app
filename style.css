@@ -96,10 +96,18 @@ button {
 
 .forecast-container {
   background-color: white;
-  display: none;
-
+  color: black;
 
   /* background: #FFF; */
   margin-top: 20px;
 
+}
+
+.forecast-card {
+  border: 1px solid black;
+
+}
+
+.forecast-day {
+  display: flex;
 }

@@ -8,6 +8,13 @@ interface Weather {
   sunset: string;
 }
 
+interface Forecast {
+  day: string;
+  icon: string;
+  minTemp: number;
+  maxTemp: number;
+}
+
 // enum for weather icons
 enum WeatherIcon {
   '01d' = 'sunny-icon.svg',
@@ -42,6 +49,8 @@ const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_K
 const currentWeatherBackground = document.getElementById('current-weather-background') as HTMLDivElement
 const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
 const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
+
+const forecastCard = document.getElementById('forecast-card') as HTMLDivElement
 
 
 // fetch current weather data
@@ -124,14 +133,45 @@ const fetchForecastData = async () => {
       throw new Error(`error status: ${response.status}`)
     }
     const data = await response.json()
-    console.log(data)
+    //go through the list of forecast data
     data.list.forEach(item => {
       const timeStamp = new Date(item.dt * 1000)
       console.log(timeStamp)
+      const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' })
+      console.log(day)
+      const weatherIcon: string = WeatherIcon[item.weather[0].icon]
+
+      //Create forecast object
+      const forecast: Forecast = {
+        day: day,
+        icon: `./assets/${weatherIcon}`,
+        minTemp: Math.ceil(item.main.temp_min),
+        maxTemp: Math.ceil(item.main.temp_max)
+      }
+      //display forecast data
+      displayForecastData(forecast)
+      console.log(forecast)
+
     })
   } catch (error) {
     console.error(`error: ${error}`)
   }
+}
+
+const displayForecastData = (forecastObject: Forecast) => {
+
+  forecastCard.innerHTML =
+    `
+    <div class='forecast-day'>
+      <p class='small-paragraph'>${forecastObject.day}</p>
+      <div class='forecast-weather'>
+        <img class='forecast-icon' src='${forecastObject.icon}' alt='weather-icon'>
+      </div>
+      <div class= "min-max">
+      <p class='small-paragraph'>${forecastObject.maxTemp}° / ${forecastObject.minTemp}°C</p>
+      </div>
+    </div>
+    `
 }
 
 
