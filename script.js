@@ -21,6 +21,28 @@ const currentWeather = document.getElementById('current-weather-top');
 const weatherIconContainer = document.getElementById('weather-icon-container');
 const currentWeatherInfo = document.getElementById('current-weather-info');
 const localSunInfo = document.getElementById('local-sun-info');
+// enum for weather icons
+var WeatherIcon;
+(function (WeatherIcon) {
+    WeatherIcon["01d"] = "sunny-icon.svg";
+    WeatherIcon["01n"] = "moon-icon.svg";
+    WeatherIcon["02d"] = "partly-cloudy-icon.svg";
+    WeatherIcon["02n"] = "partly-cloudy-icon.svg";
+    WeatherIcon["03d"] = "cloudy-icon.svg";
+    WeatherIcon["03n"] = "cloudy-icon.svg";
+    WeatherIcon["04d"] = "cloudy-icon.svg";
+    WeatherIcon["04n"] = "cloudy-icon.svg";
+    WeatherIcon["09d"] = "rainy-icon.svg";
+    WeatherIcon["09n"] = "rainy-icon.svg";
+    WeatherIcon["10d"] = "rainy-icon.svg";
+    WeatherIcon["10n"] = "rainy-icon.svg";
+    WeatherIcon["11d"] = "thunderstorm-icon.svg";
+    WeatherIcon["11n"] = "thunderstorm-icon.svg";
+    WeatherIcon["13d"] = "snow-icon.svg";
+    WeatherIcon["13n"] = "snow-icon.svg";
+    WeatherIcon["50d"] = "mist-icon.svg";
+    WeatherIcon["50n"] = "mist-icon.svg";
+})(WeatherIcon || (WeatherIcon = {}));
 // fetch data
 const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,13 +53,17 @@ const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
         const data = yield response.json();
         console.log(data);
         console.log('city:', data.name);
-        console.log('temperature:', data.main.temp);
-        console.log('sunrise:', data.sys.sunrise);
-        console.log('sunset:', data.sys.sunset);
+        console.log('temperature:', `${Math.ceil(data.main.temp)}°C`);
+        const sunriseTime = new Date(data.sys.sunrise * 1000);
+        console.log('sunrise:', `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`);
+        const sunsetTime = new Date(data.sys.sunset * 1000);
+        console.log('sunset:', `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`);
         console.log('weather icon:', data.weather[0].icon);
+        const weatherIcon = WeatherIcon[data.weather[0].icon];
+        console.log('weather icon:', `./assets/${weatherIcon}`);
         console.log('weather description:', data.weather[0].description);
         currentWeather.innerHTML = `<p class="big-paragraph">${Math.ceil(data.main.temp)}°C</p>`;
-        weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`;
+        weatherIconContainer.innerHTML = `<img src="./assets/${weatherIcon}" alt = "weather icon">`;
         currentWeatherInfo.innerHTML = `
       <p class="medium-paragraph">${data.name}</p>
       <p class="small-paragraph">${data.weather[0].description}</p>`;
@@ -55,7 +81,7 @@ fetchData(CURRENT_URL);
 const createCurrentWeatherObject = () => {
     // fetch current weather data
 };
-const loadWeather = (obj) => {
+const loadWeather = () => {
     currentWeather.innerHTML = `<p class="big-paragraph">${obj.temerature}</p>`;
     weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`;
     currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
