@@ -39,7 +39,7 @@ const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
 
 // DOM elements
-const currentWeatherContainer = document.getElementById('circle') as HTMLDivElement
+const currentWeatherBackground = document.getElementById('current-weather-background') as HTMLDivElement
 const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
 const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
 
@@ -71,8 +71,8 @@ const fetchCurrentWeather = async () => {
 
     // check if night and style accordingly
     isNight(data.sys.sunrise, data.sys.sunset) ?
-      currentWeatherContainer.classList.add('night') :
-      currentWeatherContainer.classList.remove('night')
+      currentWeatherBackground.classList.add('night') :
+      currentWeatherBackground.classList.remove('night')
 
 
   } catch (error) {
@@ -100,7 +100,6 @@ const displayCurrentWeather = (weatherObject: Weather) => {
     `
 }
 
-// fetch forecast data
 
 // display forecast data
 
@@ -109,17 +108,35 @@ const isNight = (sunriseTimestamp: number, sunsetTimestamp: number): boolean => 
   const currentTime = new Date()
   const sunrise = new Date(sunriseTimestamp * 1000)
   const sunset = new Date(sunsetTimestamp * 1000)
-  if (currentTime >= sunrise && currentTime < sunset) {
+  if (currentTime >= sunrise && currentTime <= sunset) {
     return false
   } else {
     return true
   }
 }
 
+//Fetch forecast data 
+const fetchForecastData = async () => {
+  try {
+    const response = await fetch(FORECAST_URL)
 
-// f
+    if (!response.ok) {
+      throw new Error(`error status: ${response.status}`)
+    }
+    const data = await response.json()
+    console.log(data)
+    data.list.forEach(item => {
+      const timeStamp = new Date(item.dt * 1000)
+      console.log(timeStamp)
+    })
+  } catch (error) {
+    console.error(`error: ${error}`)
+  }
+}
+
 
 // function to show/hide forecast
 
 fetchCurrentWeather()
 
+fetchForecastData()
