@@ -13,7 +13,7 @@ enum WeatherIcon {
   '01d' = 'sunny-icon.svg',
   '01n' = 'moon-icon.svg',
   '02d' = 'partly-cloudy-icon.svg',
-  '02n' = 'partly-cloudy-icon.svg',
+  '02n' = 'partly-cloudy-night-icon.svg',
   '03d' = 'cloudy-icon.svg',
   '03n' = 'cloudy-icon.svg',
   '04d' = 'cloudy-icon.svg',

@@ -14,7 +14,7 @@ var WeatherIcon;
     WeatherIcon["01d"] = "sunny-icon.svg";
     WeatherIcon["01n"] = "moon-icon.svg";
     WeatherIcon["02d"] = "partly-cloudy-icon.svg";
-    WeatherIcon["02n"] = "partly-cloudy-icon.svg";
+    WeatherIcon["02n"] = "partly-cloudy-night-icon.svg";
     WeatherIcon["03d"] = "cloudy-icon.svg";
     WeatherIcon["03n"] = "cloudy-icon.svg";
     WeatherIcon["04d"] = "cloudy-icon.svg";
