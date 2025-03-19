@@ -94,7 +94,6 @@ const displayCurrentWeather = (weatherObject) => {
     </div>
     `;
 };
-// display forecast data
 // funtion to check if day or night
 const isNight = (sunriseTimestamp, sunsetTimestamp) => {
     const currentTime = new Date();
@@ -115,16 +114,18 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error(`error status: ${response.status}`);
         }
         const data = yield response.json();
-        console.log(data);
+        // filter data to include only from 12:00 each day
         const forecastData = data.list.filter(item => {
             return item.dt_txt.includes('12:00:00');
         });
-        console.log('forecast data day:', forecastData);
+        // array to save forecast data in
         let forecastObjects = [];
+        // create forecast objects for each element
         forecastData.forEach(item => {
-            const timeStamp = new Date(item.dt * 1000);
             //get day of the week
+            const timeStamp = new Date(item.dt * 1000);
             const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' });
+            // weather icon
             const weatherIcon = WeatherIcon[item.weather[0].icon];
             //Create forecast object
             const forecast = {
@@ -134,7 +135,6 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
             };
             forecastObjects.push(forecast);
         });
-        console.log(forecastObjects);
         // display forecast
         displayForecastData(forecastObjects);
     }
@@ -142,6 +142,7 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
         console.error(`error: ${error}`);
     }
 });
+// display forecast
 const displayForecastData = (forecastObjectArray) => {
     //clear forecast card
     forecastCard.innerHTML = '';
