@@ -41,7 +41,7 @@ const fetchData = async (url: string) => {
     localSunInfo.innerHTML = `
       <p class="small-paragraph">Sunrise: ${data.sys.sunrise}</p>
       <p class="small-paragraph">Sunset: ${data.sys.sunset}</p>`
-    
+
     return data
 
   } catch (error) {
@@ -56,7 +56,7 @@ fetchData(CURRENT_URL)
 // current weather
 const createCurrentWeatherObject = () => {
   // fetch current weather data
-  
+
 }
 
 
@@ -67,10 +67,10 @@ const loadWeather = () => {
   currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
   <p class="small-paragraph">${obj.description}</p>`
   localSunInfo.innerHTML = `<p class="small-paragraph">Sunrise: ${obj.sunrise}</p><p class="small-paragraph">Sunset: ${obj.sunset}</p>`
-  
+
   //OBS sunrise och sunset är konstiga DATE-tider. 
-  
-  
+
+
 }
 
 //funktion som går igenom iconerna 
