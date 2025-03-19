@@ -11,8 +11,7 @@ interface Weather {
 interface Forecast {
   day: string;
   icon: string;
-  minTemp: number;
-  maxTemp: number;
+  dayTemp: number;
 }
 
 // enum for weather icons
@@ -49,9 +48,7 @@ const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_K
 const currentWeatherBackground = document.getElementById('current-weather-background') as HTMLDivElement
 const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
 const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
-
 const forecastCard = document.getElementById('forecast-card') as HTMLDivElement
-
 
 // fetch current weather data
 const fetchCurrentWeather = async () => {
@@ -83,7 +80,6 @@ const fetchCurrentWeather = async () => {
       currentWeatherBackground.classList.add('night') :
       currentWeatherBackground.classList.remove('night')
 
-
   } catch (error) {
     console.error('Error:', error)
   }
@@ -109,9 +105,6 @@ const displayCurrentWeather = (weatherObject: Weather) => {
     `
 }
 
-
-// display forecast data
-
 // funtion to check if day or night
 const isNight = (sunriseTimestamp: number, sunsetTimestamp: number): boolean => {
   const currentTime = new Date()
@@ -133,45 +126,56 @@ const fetchForecastData = async () => {
       throw new Error(`error status: ${response.status}`)
     }
     const data = await response.json()
-    //go through the list of forecast data
-    data.list.forEach(item => {
-      const timeStamp = new Date(item.dt * 1000)
-      console.log(timeStamp)
-      const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' })
-      console.log(day)
-      const weatherIcon: string = WeatherIcon[item.weather[0].icon]
 
+    // filter data to include only from 12:00 each day
+    const forecastData = data.list.filter(item => {
+      return item.dt_txt.includes('12:00:00')
+    })
+    // array to save forecast data in
+    let forecastObjects: Forecast[] = []
+    // create forecast objects for each element
+    forecastData.forEach(item => {
+      //get day of the week
+      const timeStamp = new Date(item.dt * 1000)
+      const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' })
+      // weather icon
+      const weatherIcon: string = WeatherIcon[item.weather[0].icon]
       //Create forecast object
       const forecast: Forecast = {
         day: day,
         icon: `./assets/${weatherIcon}`,
-        minTemp: Math.ceil(item.main.temp_min),
-        maxTemp: Math.ceil(item.main.temp_max)
+        dayTemp: Math.ceil(item.main.temp)
       }
-      //display forecast data
-      displayForecastData(forecast)
-      console.log(forecast)
-
+      forecastObjects.push(forecast)
     })
+    // display forecast
+    displayForecastData(forecastObjects)
+
   } catch (error) {
     console.error(`error: ${error}`)
   }
 }
 
-const displayForecastData = (forecastObject: Forecast) => {
-
-  forecastCard.innerHTML =
-    `
+// display forecast
+const displayForecastData = (forecastObjectArray: Forecast[]) => {
+  //clear forecast card
+  forecastCard.innerHTML = ''
+  //display forecast data
+  forecastObjectArray.forEach(item => {
+    forecastCard.innerHTML +=
+      `
     <div class='forecast-day'>
-      <p class='small-paragraph'>${forecastObject.day}</p>
+      <p class='small-paragraph'>${item.day}</p>
       <div class='forecast-weather'>
-        <img class='forecast-icon' src='${forecastObject.icon}' alt='weather-icon'>
+        <img class='forecast-icon' src='${item.icon}' alt='weather-icon'>
       </div>
       <div class= "min-max">
-      <p class='small-paragraph'>${forecastObject.maxTemp}° / ${forecastObject.minTemp}°C</p>
+      <p class='small-paragraph'>${item.dayTemp}°C</p>
       </div>
     </div>
     `
+  })
+
 }
 
 

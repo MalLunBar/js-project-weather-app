@@ -115,42 +115,51 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
             throw new Error(`error status: ${response.status}`);
         }
         const data = yield response.json();
-        //go through the list of forecast data
-        data.list.forEach(item => {
+        console.log(data);
+        const forecastData = data.list.filter(item => {
+            return item.dt_txt.includes('12:00:00');
+        });
+        console.log('forecast data day:', forecastData);
+        let forecastObjects = [];
+        forecastData.forEach(item => {
             const timeStamp = new Date(item.dt * 1000);
-            console.log(timeStamp);
+            //get day of the week
             const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' });
-            console.log(day);
             const weatherIcon = WeatherIcon[item.weather[0].icon];
             //Create forecast object
             const forecast = {
                 day: day,
                 icon: `./assets/${weatherIcon}`,
-                minTemp: Math.ceil(item.main.temp_min),
-                maxTemp: Math.ceil(item.main.temp_max)
+                dayTemp: Math.ceil(item.main.temp)
             };
-            //display forecast data
-            displayForecastData(forecast);
-            console.log(forecast);
+            forecastObjects.push(forecast);
         });
+        console.log(forecastObjects);
+        // display forecast
+        displayForecastData(forecastObjects);
     }
     catch (error) {
         console.error(`error: ${error}`);
     }
 });
-const displayForecastData = (forecastObject) => {
-    forecastCard.innerHTML =
-        `
+const displayForecastData = (forecastObjectArray) => {
+    //clear forecast card
+    forecastCard.innerHTML = '';
+    //display forecast data
+    forecastObjectArray.forEach(item => {
+        forecastCard.innerHTML +=
+            `
     <div class='forecast-day'>
-      <p class='small-paragraph'>${forecastObject.day}</p>
+      <p class='small-paragraph'>${item.day}</p>
       <div class='forecast-weather'>
-        <img class='forecast-icon' src='${forecastObject.icon}' alt='weather-icon'>
+        <img class='forecast-icon' src='${item.icon}' alt='weather-icon'>
       </div>
       <div class= "min-max">
-      <p class='small-paragraph'>${forecastObject.maxTemp}° / ${forecastObject.minTemp}°C</p>
+      <p class='small-paragraph'>${item.dayTemp}°C</p>
       </div>
     </div>
     `;
+    });
 };
 // function to show/hide forecast
 fetchCurrentWeather();

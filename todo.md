@@ -3,10 +3,8 @@ FRÅGOR:
 
 ToDo: 
 
-- loadData function 
-- Function to display current weather 
-- Function to display weather forecast
-- Function that checks the time. 
-    if time is "daytime" then show certain colors and  show specific day-icons. 
-    else (nighttime) show moon. with or without clouds. 
-- Glöm inte: Toggla (lägg till class på circle "night" i function)
+- Se till att man kan ändra stad kanske? Var får vi staden i så fall ifrån? 
+- Celcius är inte där den ska (i paragrafen)
+
+
+
