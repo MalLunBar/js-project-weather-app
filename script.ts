@@ -1,17 +1,12 @@
-// global variables
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/'
-const API_KEY = '34b8b0ad1c772a50e7652217be753ce1'
-const UNITS = 'metric'
-const CITY = 'Stockholm'
-const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
-const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
-
-// DOM elements
-const currentWeatherContainer = document.getElementById('current-weather-container') as HTMLDivElement
-const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
-const weatherIconContainer = document.getElementById('weather-icon-container') as HTMLDivElement
-const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
-const localSunInfo = document.getElementById('local-sun-info') as HTMLDivElement
+// Interface for weather data
+interface Weather {
+  city: string;
+  temperature: number;
+  icon: string;
+  description: string;
+  sunrise: string;
+  sunset: string;
+}
 
 // enum for weather icons
 enum WeatherIcon {
@@ -35,66 +30,68 @@ enum WeatherIcon {
   '50n' = 'mist-icon.svg'
 }
 
-// fetch data
-const fetchData = async (url: string) => {
+// global variables
+const BASE_URL = 'https://api.openweathermap.org/data/2.5/'
+const API_KEY = '34b8b0ad1c772a50e7652217be753ce1'
+const UNITS = 'metric'
+const CITY = 'Stockholm'
+const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
+const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
+
+// DOM elements
+const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
+const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
+
+
+// fetch current weather data
+const fetchCurrentWeather = async () => {
   try {
-    const response = await fetch(url)
+    const response = await fetch(CURRENT_URL)
     if (!response.ok) {
       throw new Error(`Error! Status: ${response.status}`)
     }
     const data = await response.json()
-
-    console.log(data)
-
-    console.log('city:', data.name)
-    console.log('temperature:', `${Math.ceil(data.main.temp)}°C`)
+    // get sunrise and sunset time
     const sunriseTime = new Date(data.sys.sunrise * 1000)
-    console.log('sunrise:', `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`)
     const sunsetTime = new Date(data.sys.sunset * 1000)
-    console.log('sunset:', `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`)
-    console.log('weather icon:', data.weather[0].icon)
+    // get weather icon
     const weatherIcon: string = WeatherIcon[data.weather[0].icon]
-    console.log('weather icon:', `./assets/${weatherIcon}`)
-    console.log('weather description:', data.weather[0].description)
-
-    currentWeather.innerHTML = `<p class="big-paragraph">${Math.ceil(data.main.temp)}°C</p>`
-    weatherIconContainer.innerHTML = `<img src="./assets/${weatherIcon}" alt = "weather icon">`
-    currentWeatherInfo.innerHTML = `
-      <p class="medium-paragraph">${data.name}</p>
-      <p class="small-paragraph">${data.weather[0].description}</p>`
-    localSunInfo.innerHTML = `
-      <p class="small-paragraph">Sunrise: ${data.sys.sunrise}</p>
-      <p class="small-paragraph">Sunset: ${data.sys.sunset}</p>`
-
-    return data
+    // create weather object
+    let currentWeather: Weather = {
+      city: data.name,
+      temperature: Math.ceil(data.main.temp),
+      icon: `./assets/${weatherIcon}`,
+      description: data.weather[0].description,
+      sunrise: `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`,
+      sunset: `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`
+    }
+    // display current weather
+    displayCurrentWeather(currentWeather)
 
   } catch (error) {
     console.error('Error:', error)
   }
 }
 
-fetchData(CURRENT_URL)
-
-
-
-// current weather
-const createCurrentWeatherObject = () => {
-  // fetch current weather data
-
+// display current weather
+const displayCurrentWeather = (weatherObject: Weather) => {
+  currentWeather.innerHTML =
+    `
+    <p class='big-paragraph'>${weatherObject.temperature}°C</p>
+    <div class='weather-icon-container'>
+      <img class='weather-icon' src='${weatherObject.icon}' alt='weather-icon'>
+    </div>
+    `
+  currentWeatherInfo.innerHTML =
+    `
+    <p class='medium-paragraph'>${weatherObject.city}</p>
+    <p class='small-paragraph'>${weatherObject.description}</p>
+    <div class='local-sun-info'>
+      <p class='small-paragraph'>Sunrise: ${weatherObject.sunrise}</p>
+      <p class='small-paragraph'>Sunset: ${weatherObject.sunset}</p>
+    </div>
+    `
 }
 
+fetchCurrentWeather()
 
-
-const loadWeather = () => {
-  currentWeather.innerHTML = `<p class="big-paragraph">${obj.temerature}</p>`
-  weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`
-  currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
-  <p class="small-paragraph">${obj.description}</p>`
-  localSunInfo.innerHTML = `<p class="small-paragraph">Sunrise: ${obj.sunrise}</p><p class="small-paragraph">Sunset: ${obj.sunset}</p>`
-
-  //OBS sunrise och sunset är konstiga DATE-tider. 
-
-
-}
-
-//funktion som går igenom iconerna 

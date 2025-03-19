@@ -8,19 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-// global variables
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
-const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
-const UNITS = 'metric';
-const CITY = 'Stockholm';
-const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
-const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
-// DOM elements
-const currentWeatherContainer = document.getElementById('current-weather-container');
-const currentWeather = document.getElementById('current-weather-top');
-const weatherIconContainer = document.getElementById('weather-icon-container');
-const currentWeatherInfo = document.getElementById('current-weather-info');
-const localSunInfo = document.getElementById('local-sun-info');
 // enum for weather icons
 var WeatherIcon;
 (function (WeatherIcon) {
@@ -43,50 +30,62 @@ var WeatherIcon;
     WeatherIcon["50d"] = "mist-icon.svg";
     WeatherIcon["50n"] = "mist-icon.svg";
 })(WeatherIcon || (WeatherIcon = {}));
-// fetch data
-const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
+// global variables
+const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
+const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
+const UNITS = 'metric';
+const CITY = 'Stockholm';
+const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
+const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
+// DOM elements
+const currentWeather = document.getElementById('current-weather-top');
+const currentWeatherInfo = document.getElementById('current-weather-info');
+// fetch current weather data
+const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const response = yield fetch(url);
+        const response = yield fetch(CURRENT_URL);
         if (!response.ok) {
             throw new Error(`Error! Status: ${response.status}`);
         }
         const data = yield response.json();
-        console.log(data);
-        console.log('city:', data.name);
-        console.log('temperature:', `${Math.ceil(data.main.temp)}°C`);
+        // get sunrise and sunset time
         const sunriseTime = new Date(data.sys.sunrise * 1000);
-        console.log('sunrise:', `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`);
         const sunsetTime = new Date(data.sys.sunset * 1000);
-        console.log('sunset:', `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`);
-        console.log('weather icon:', data.weather[0].icon);
+        // get weather icon
         const weatherIcon = WeatherIcon[data.weather[0].icon];
-        console.log('weather icon:', `./assets/${weatherIcon}`);
-        console.log('weather description:', data.weather[0].description);
-        currentWeather.innerHTML = `<p class="big-paragraph">${Math.ceil(data.main.temp)}°C</p>`;
-        weatherIconContainer.innerHTML = `<img src="./assets/${weatherIcon}" alt = "weather icon">`;
-        currentWeatherInfo.innerHTML = `
-      <p class="medium-paragraph">${data.name}</p>
-      <p class="small-paragraph">${data.weather[0].description}</p>`;
-        localSunInfo.innerHTML = `
-      <p class="small-paragraph">Sunrise: ${data.sys.sunrise}</p>
-      <p class="small-paragraph">Sunset: ${data.sys.sunset}</p>`;
-        return data;
+        // create weather object
+        let currentWeather = {
+            city: data.name,
+            temperature: Math.ceil(data.main.temp),
+            icon: `./assets/${weatherIcon}`,
+            description: data.weather[0].description,
+            sunrise: `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`,
+            sunset: `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`
+        };
+        // display current weather
+        displayCurrentWeather(currentWeather);
     }
     catch (error) {
         console.error('Error:', error);
     }
 });
-fetchData(CURRENT_URL);
-// current weather
-const createCurrentWeatherObject = () => {
-    // fetch current weather data
+// display current weather
+const displayCurrentWeather = (weatherObject) => {
+    currentWeather.innerHTML =
+        `
+    <p class='big-paragraph'>${weatherObject.temperature}°C</p>
+    <div class='weather-icon-container'>
+      <img class='weather-icon' src='${weatherObject.icon}' alt='weather-icon'>
+    </div>
+    `;
+    currentWeatherInfo.innerHTML =
+        `
+    <p class='medium-paragraph'>${weatherObject.city}</p>
+    <p class='small-paragraph'>${weatherObject.description}</p>
+    <div class='local-sun-info'>
+      <p class='small-paragraph'>Sunrise: ${weatherObject.sunrise}</p>
+      <p class='small-paragraph'>Sunset: ${weatherObject.sunset}</p>
+    </div>
+    `;
 };
-const loadWeather = () => {
-    currentWeather.innerHTML = `<p class="big-paragraph">${obj.temerature}</p>`;
-    weatherIconContainer.innerHTML = `<img src="" alt = "weather icon">`;
-    currentWeatherInfo.innerHTML = `<p class="medium-paragraph">${obj.city}</p>
-  <p class="small-paragraph">${obj.description}</p>`;
-    localSunInfo.innerHTML = `<p class="small-paragraph">Sunrise: ${obj.sunrise}</p><p class="small-paragraph">Sunset: ${obj.sunset}</p>`;
-    //OBS sunrise och sunset är konstiga DATE-tider. 
-};
-//funktion som går igenom iconerna 
+fetchCurrentWeather();
