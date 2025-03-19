@@ -39,6 +39,7 @@ const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
 
 // DOM elements
+const currentWeatherContainer = document.getElementById('circle') as HTMLDivElement
 const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
 const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
 
@@ -68,6 +69,12 @@ const fetchCurrentWeather = async () => {
     // display current weather
     displayCurrentWeather(currentWeather)
 
+    // check if night and style accordingly
+    isNight(data.sys.sunrise, data.sys.sunset) ?
+      currentWeatherContainer.classList.add('night') :
+      currentWeatherContainer.classList.remove('night')
+
+
   } catch (error) {
     console.error('Error:', error)
   }
@@ -77,7 +84,7 @@ const fetchCurrentWeather = async () => {
 const displayCurrentWeather = (weatherObject: Weather) => {
   currentWeather.innerHTML =
     `
-    <p class='big-paragraph'>${weatherObject.temperature}°C</p>
+    <p class='big-paragraph'>${weatherObject.temperature}<p class="celcius">°C</p></p>
     <div class='weather-icon-container'>
       <img class='weather-icon' src='${weatherObject.icon}' alt='weather-icon'>
     </div>
@@ -92,6 +99,27 @@ const displayCurrentWeather = (weatherObject: Weather) => {
     </div>
     `
 }
+
+// fetch forecast data
+
+// display forecast data
+
+// funtion to check if day or night
+const isNight = (sunriseTimestamp: number, sunsetTimestamp: number): boolean => {
+  const currentTime = new Date()
+  const sunrise = new Date(sunriseTimestamp * 1000)
+  const sunset = new Date(sunsetTimestamp * 1000)
+  if (currentTime >= sunrise && currentTime < sunset) {
+    return false
+  } else {
+    return true
+  }
+}
+
+
+// f
+
+// function to show/hide forecast
 
 fetchCurrentWeather()
 

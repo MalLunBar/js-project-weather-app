@@ -5,23 +5,27 @@
 }
 
 body {
-  
+
   color: white;
   font-family: Roboto;
   font-weight: 300;
-  
+
 }
 
 .circle {
   background-image: linear-gradient(to right, #8589FF, #E8E9FF);
   clip-path: ellipse(100% 100% at top);
   height: 350px;
-  
+
+}
+
+.circle.night {
+  background-image: linear-gradient(to right, #060965, #575a95);
 }
 
 header {
   display: flex;
-  
+
 }
 
 .hamburger {
@@ -39,16 +43,16 @@ header {
   margin: 0 10px;
 }
 
-.current-weather-top{
- display: flex;
- align-items: center;
+.current-weather-top {
+  display: flex;
+  align-items: center;
 }
 
 .local-sun-info {
   display: flex;
   gap: 20px;
- 
-  
+
+
 }
 
 button {
@@ -71,6 +75,9 @@ button {
 
 
 /* Paragraphs */
+.celcius {
+  font-size: 34px;
+}
 
 .big-paragraph {
   font-size: 110px;
@@ -89,10 +96,10 @@ button {
 
 .forecast-container {
   background-color: white;
-  display: none; 
-  
-  
+  display: none;
+
+
   /* background: #FFF; */
   margin-top: 20px;
-  
+
 }
