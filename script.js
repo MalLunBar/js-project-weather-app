@@ -116,7 +116,8 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
         const data = yield response.json();
         console.log(data);
         data.list.forEach(item => {
-            console.log(item.dt_txt);
+            const timeStamp = new Date(item.dt * 1000);
+            console.log(timeStamp);
         });
     }
     catch (error) {
