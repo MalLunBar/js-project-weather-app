@@ -65,16 +65,17 @@ const fetchCurrentWeather = async () => {
     const sunriseTime = new Date(data.sys.sunrise * 1000)
     const sunsetTime = new Date(data.sys.sunset * 1000)
     // get weather icon
-    const weatherIcon: string = WeatherIcon[data.weather[0].icon]
+    const weatherIcon: string = WeatherIcon[data.weather[0].icon as keyof typeof WeatherIcon]
     // create weather object
     let currentWeather: Weather = {
       city: data.name,
       temperature: Math.ceil(data.main.temp),
       icon: `./assets/${weatherIcon}`,
       description: data.weather[0].description,
-      sunrise: `${sunriseTime.getHours()}:${sunriseTime.getMinutes()}`,
-      sunset: `${sunsetTime.getHours()}:${sunsetTime.getMinutes()}`
+      sunrise: `${sunriseTime.getHours().toString().padStart(2, '0')}:${sunriseTime.getMinutes().toString().padStart(2, '0')}`,
+      sunset: `${sunsetTime.getHours().toString().padStart(2, '0')}:${sunsetTime.getMinutes().toString().padStart(2, '0')}`
     }
+
     // display current weather
     displayCurrentWeather(currentWeather)
 
@@ -131,18 +132,18 @@ const fetchForecastData = async () => {
     const data = await response.json()
 
     // filter data to include only from 12:00 each day
-    const forecastData = data.list.filter(item => {
+    const forecastData = data.list.filter((item: any) => {
       return item.dt_txt.includes('12:00:00')
     })
     // array to save forecast data in
     let forecastObjects: Forecast[] = []
     // create forecast objects for each element
-    forecastData.forEach(item => {
+    forecastData.forEach((item: any) => {
       //get day of the week
       const timeStamp = new Date(item.dt * 1000)
       const day = timeStamp.toLocaleDateString('en-US', { weekday: 'short' })
       // weather icon
-      const weatherIcon: string = WeatherIcon[item.weather[0].icon]
+      const weatherIcon: string = WeatherIcon[item.weather[0].icon as keyof typeof WeatherIcon]
       //Create forecast object
       const forecast: Forecast = {
         day: day,
@@ -182,9 +183,7 @@ const displayForecastData = (forecastObjectArray: Forecast[]) => {
 }
 
 
-// function to show/hide forecast
-
-// eventlistener for button
+// eventlistener for button to show/hide forecast
 toggleForecastButton.addEventListener('click', () => {
   buttonArrow.classList.toggle('down')
   buttonContainer.classList.toggle('full')

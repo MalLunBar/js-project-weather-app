@@ -16,12 +16,12 @@ body {
   background-image: linear-gradient(to right, #8589FF, #E8E9FF);
   clip-path: ellipse(100% 100% at top);
   height: 320px;
-  transition: 200ms;
+  transition: 300ms;
 }
 
 .current-weather-background.full {
   height: 120vh;
-  transition: 200ms;
+  transition: 300ms;
 }
 
 
@@ -73,10 +73,12 @@ header {
   justify-content: flex-end;
   align-items: flex-start;
   padding-right: 10px;
+
 }
 
 .button-container.full {
   align-items: flex-end;
+
 }
 
 button {
@@ -96,12 +98,12 @@ button {
   /* change color from black to white */
   filter: invert(1);
   transform: rotate(180deg);
-  transition: 200ms;
+  transition: 300ms;
 }
 
 .arrow.down {
   transform: rotate(0deg);
-  transition: 200ms;
+  transition: 300ms;
 }
 
 
