@@ -42,6 +42,9 @@ const currentWeatherBackground = document.getElementById('current-weather-backgr
 const currentWeather = document.getElementById('current-weather-top');
 const currentWeatherInfo = document.getElementById('current-weather-info');
 const forecastCard = document.getElementById('forecast-card');
+const toggleForecastButton = document.getElementById('toggle-btn');
+const buttonArrow = document.getElementById('arrow');
+const buttonContainer = document.getElementById('button-container');
 // fetch current weather data
 const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -163,5 +166,11 @@ const displayForecastData = (forecastObjectArray) => {
     });
 };
 // function to show/hide forecast
+// eventlistener for button
+toggleForecastButton.addEventListener('click', () => {
+    buttonArrow.classList.toggle('down');
+    buttonContainer.classList.toggle('full');
+    currentWeatherBackground.classList.toggle('full');
+});
 fetchCurrentWeather();
 fetchForecastData();

@@ -49,6 +49,9 @@ const currentWeatherBackground = document.getElementById('current-weather-backgr
 const currentWeather = document.getElementById('current-weather-top') as HTMLDivElement
 const currentWeatherInfo = document.getElementById('current-weather-info') as HTMLDivElement
 const forecastCard = document.getElementById('forecast-card') as HTMLDivElement
+const toggleForecastButton = document.getElementById('toggle-btn') as HTMLButtonElement
+const buttonArrow = document.getElementById('arrow') as HTMLButtonElement
+const buttonContainer = document.getElementById('button-container') as HTMLDivElement
 
 // fetch current weather data
 const fetchCurrentWeather = async () => {
@@ -180,6 +183,14 @@ const displayForecastData = (forecastObjectArray: Forecast[]) => {
 
 
 // function to show/hide forecast
+
+// eventlistener for button
+toggleForecastButton.addEventListener('click', () => {
+  buttonArrow.classList.toggle('down')
+  buttonContainer.classList.toggle('full')
+  currentWeatherBackground.classList.toggle('full')
+})
+
 
 fetchCurrentWeather()
 

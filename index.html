@@ -31,7 +31,7 @@
 <body>
   <div
     id="current-weather-background"
-    class="current-weather-background"
+    class="current-weather-background full"
   >
     <header>
       <img
@@ -55,26 +55,30 @@
         class="current-weather-info"
         id="current-weather-info"
       >
-
-        <p class="medium-paragraph">Stockholm</p>
-        <p class="small-paragraph">sunny</p>
-
-        <div class="current-local-weather"></div>
-
       </div>
 
-      <button
-        class="toggle-forecast-btn"
-        type="button"
-      >
-        <img
-          src="./assets/chevron-down-solid.svg"
-          alt=""
-        >
-      </button>
     </section>
 
 
+  </div>
+
+  <div
+    id="button-container"
+    class="button-container full"
+  >
+    <button
+      class="toggle-forecast-btn"
+      id="toggle-btn"
+      type="button"
+    >
+      <img
+        class="arrow"
+        id="arrow"
+        src="./assets/chevron-down-solid.svg"
+        alt="arrow"
+      >
+
+    </button>
   </div>
 
 
@@ -84,11 +88,11 @@
       id="forecast-card"
     >
     </div>
+
   </section>
+
+
   <script src="./script.js"></script>
 </body>
-
-
-<!-- Hej! Ska bara testa lite här nere / Matilda -->
 
 </html>
