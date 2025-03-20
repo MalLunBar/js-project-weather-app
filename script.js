@@ -1,13 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 // enum for weather icons
 var WeatherIcon;
 (function (WeatherIcon) {
@@ -34,7 +25,7 @@ var WeatherIcon;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
 const UNITS = 'metric';
-const CITY = 'Stockholm';
+const CITY = 'stockholm';
 const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 // DOM elements
@@ -46,17 +37,16 @@ const toggleForecastButton = document.getElementById('toggle-btn');
 const buttonArrow = document.getElementById('arrow');
 const buttonContainer = document.getElementById('button-container');
 // fetch current weather data
-const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* () {
+const fetchCurrentWeather = async () => {
     try {
-        const response = yield fetch(CURRENT_URL);
+        const response = await fetch(CURRENT_URL);
         if (!response.ok) {
             throw new Error(`Error! Status: ${response.status}`);
         }
-        const data = yield response.json();
+        const data = await response.json();
         // get sunrise and sunset time
         const sunriseTime = new Date(data.sys.sunrise * 1000);
         const sunsetTime = new Date(data.sys.sunset * 1000);
-        console.log(typeof (sunriseTime));
         // get weather icon
         const weatherIcon = WeatherIcon[data.weather[0].icon];
         // create weather object
@@ -78,12 +68,12 @@ const fetchCurrentWeather = () => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         console.error('Error:', error);
     }
-});
+};
 // display current weather
 const displayCurrentWeather = (weatherObject) => {
     currentWeather.innerHTML =
         `
-    <p class='big-paragraph'>${weatherObject.temperature}<p class="celcius">°C</p></p>
+    <p class='big-paragraph'>${weatherObject.temperature}<sup class="celcius">°C</sup></p>
     <div class='weather-icon-container'>
       <img class='weather-icon' src='${weatherObject.icon}' alt='weather-icon'>
     </div>
@@ -111,13 +101,13 @@ const isNight = (sunriseTimestamp, sunsetTimestamp) => {
     }
 };
 //Fetch forecast data 
-const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
+const fetchForecastData = async () => {
     try {
-        const response = yield fetch(FORECAST_URL);
+        const response = await fetch(FORECAST_URL);
         if (!response.ok) {
             throw new Error(`error status: ${response.status}`);
         }
-        const data = yield response.json();
+        const data = await response.json();
         // filter data to include only from 12:00 each day
         const forecastData = data.list.filter((item) => {
             return item.dt_txt.includes('12:00:00');
@@ -145,7 +135,7 @@ const fetchForecastData = () => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         console.error(`error: ${error}`);
     }
-});
+};
 // display forecast
 const displayForecastData = (forecastObjectArray) => {
     //clear forecast card

@@ -7,5 +7,5 @@ ToDo:
 - Se till att det finns ett error för i fall att iconen inte finns (eller nått default)
 - Celcius är inte där den ska (i paragrafen)
 - 
-
+- local time in sunrise/sunset
 
