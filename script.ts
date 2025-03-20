@@ -40,7 +40,7 @@ enum WeatherIcon {
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/'
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1'
 const UNITS = 'metric'
-const CITY = 'stockholm'
+const CITY = 'kungsholmen'
 const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
 
