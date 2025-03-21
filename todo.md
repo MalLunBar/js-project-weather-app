@@ -5,7 +5,7 @@ ToDo:
 
 Requirements:
 [] responsive design
-[] local time in sunrise/sunset
+[X] show local time for sunrise/sunset
 
 If time:
 [] Se till att man kan ändra stad kanske? Var får vi staden i så fall ifrån? - sökfunktion

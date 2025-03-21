@@ -25,7 +25,7 @@ var WeatherIcon;
 const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
 const UNITS = 'metric';
-const CITY = 'kungsholmen';
+const CITY = 'stockholm';
 const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 // DOM elements
@@ -44,9 +44,13 @@ const fetchCurrentWeather = async () => {
             throw new Error(`Error! Status: ${response.status}`);
         }
         const data = await response.json();
-        // get sunrise and sunset time
-        const sunriseTime = new Date(data.sys.sunrise * 1000);
-        const sunsetTime = new Date(data.sys.sunset * 1000);
+        // get sunrise and sunset time - adding the timezone offset to get local time
+        const sunriseTime = new Date((data.sys.sunrise + data.timezone) * 1000);
+        const sunsetTime = new Date((data.sys.sunset + data.timezone) * 1000);
+        // format sunrise and sunset time to display correctly
+        // By default, JavaScript will use the browser's time zone when creating a Date object - this is why we need to use getUTCHours() to display the correct time
+        const sunriseTimeString = `${sunriseTime.getUTCHours().toString().padStart(2, '0')}:${sunriseTime.getMinutes().toString().padStart(2, '0')}`;
+        const sunsetTimeString = `${sunsetTime.getUTCHours().toString().padStart(2, '0')}:${sunsetTime.getMinutes().toString().padStart(2, '0')}`;
         // get weather icon
         const weatherIcon = WeatherIcon[data.weather[0].icon];
         // create weather object
@@ -55,8 +59,8 @@ const fetchCurrentWeather = async () => {
             temperature: Math.ceil(data.main.temp),
             icon: `./assets/${weatherIcon}`,
             description: data.weather[0].description,
-            sunrise: `${sunriseTime.getHours().toString().padStart(2, '0')}:${sunriseTime.getMinutes().toString().padStart(2, '0')}`,
-            sunset: `${sunsetTime.getHours().toString().padStart(2, '0')}:${sunsetTime.getMinutes().toString().padStart(2, '0')}`
+            sunrise: sunriseTimeString,
+            sunset: sunsetTimeString
         };
         // display current weather
         displayCurrentWeather(currentWeather);
