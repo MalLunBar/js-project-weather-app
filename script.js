@@ -32,7 +32,7 @@ const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_K
 const currentWeatherBackground = document.getElementById('current-weather-background');
 const currentWeather = document.getElementById('current-weather-top');
 const currentWeatherInfo = document.getElementById('current-weather-info');
-const forecastCard = document.getElementById('forecast-card');
+const forecastContainer = document.getElementById('forecast-container');
 const toggleForecastButton = document.getElementById('toggle-btn');
 const buttonArrow = document.getElementById('arrow');
 const buttonContainer = document.getElementById('button-container');
@@ -143,12 +143,12 @@ const fetchForecastData = async () => {
 // display forecast
 const displayForecastData = (forecastObjectArray) => {
     //clear forecast card
-    forecastCard.innerHTML = '';
+    forecastContainer.innerHTML = '';
     //display forecast data
     forecastObjectArray.forEach(item => {
-        forecastCard.innerHTML +=
+        forecastContainer.innerHTML +=
             `
-    <div class='forecast-day'>
+    <div class='forecast-card'>
       <p class='small-paragraph'>${item.day}</p>
       <div class='forecast-weather'>
         <img class='forecast-icon' src='${item.icon}' alt='weather-icon'>
@@ -165,6 +165,7 @@ toggleForecastButton.addEventListener('click', () => {
     buttonArrow.classList.toggle('down');
     buttonContainer.classList.toggle('full');
     currentWeatherBackground.classList.toggle('full');
+    forecastContainer.classList.toggle('show');
 });
 fetchCurrentWeather();
 fetchForecastData();

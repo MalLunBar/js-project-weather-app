@@ -29,70 +29,70 @@
 </head>
 
 <body>
-  <div
-    id="current-weather-background"
-    class="current-weather-background full"
-  >
-    <header>
-      <img
-        class="hamburger"
-        src="./assets/hamburger.svg"
-        alt="menu-icon"
+  <div class="screen">
+
+    <div
+      id="current-weather-background"
+      class="current-weather-background full"
+    >
+      <header>
+        <img
+          class="hamburger"
+          src="./assets/hamburger.svg"
+          alt="menu-icon"
+        >
+      </header>
+
+      <section
+        class="current-weather-container"
+        id="current-weather-container"
       >
-    </header>
+        <div
+          class="current-weather-top"
+          id="current-weather-top"
+        >
+        </div>
+
+        <div
+          class="current-weather-info"
+          id="current-weather-info"
+        >
+        </div>
+
+      </section>
+
+
+    </div>
+
+    <div
+      id="button-container"
+      class="button-container full"
+    >
+      <button
+        class="toggle-forecast-btn"
+        id="toggle-btn"
+        type="button"
+      >
+        <img
+          class="arrow"
+          id="arrow"
+          src="./assets/chevron-down-solid.svg"
+          alt="arrow"
+        >
+
+      </button>
+    </div>
+
 
     <section
-      class="current-weather-container"
-      id="current-weather-container"
+      class="forecast-container"
+      id="forecast-container"
     >
-      <div
-        class="current-weather-top"
-        id="current-weather-top"
-      >
-      </div>
-
-      <div
-        class="current-weather-info"
-        id="current-weather-info"
-      >
-      </div>
-
     </section>
 
 
+    <script src="./script.js"></script>
   </div>
-
-  <div
-    id="button-container"
-    class="button-container full"
-  >
-    <button
-      class="toggle-forecast-btn"
-      id="toggle-btn"
-      type="button"
-    >
-      <img
-        class="arrow"
-        id="arrow"
-        src="./assets/chevron-down-solid.svg"
-        alt="arrow"
-      >
-
-    </button>
-  </div>
-
-
-  <section class="forecast-container">
-    <div
-      class="forecast-card"
-      id="forecast-card"
-    >
-    </div>
-
-  </section>
-
-
-  <script src="./script.js"></script>
 </body>
 
 </html>
