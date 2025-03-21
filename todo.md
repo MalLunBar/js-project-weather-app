@@ -4,13 +4,13 @@ FRÅGOR:
 ToDo: 
 
 Requirements:
-[] responsive design
+[x] responsive design
 [X] show local time for sunrise/sunset
 
 * Icons needed:
-  [] 'thunderstorm-icon.svg'
+  [x] 'thunderstorm-icon.svg'
   [x] 'snow-icon.svg'
-  [] 'mist-icon.svg'
+  [x] 'mist-icon.svg'
 
 How to get icon URL:
 https://openweathermap.org/img/wn/[ICON_CODE]@2x.png
