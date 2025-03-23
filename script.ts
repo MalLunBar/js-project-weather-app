@@ -52,6 +52,11 @@ const forecastContainer = document.getElementById('forecast-container') as HTMLD
 const toggleForecastButton = document.getElementById('toggle-btn') as HTMLButtonElement
 const buttonArrow = document.getElementById('arrow') as HTMLButtonElement
 const buttonContainer = document.getElementById('button-container') as HTMLDivElement
+const cityInput = document.getElementById('search-btn') as HTMLInputElement
+
+
+
+
 
 // fetch current weather data
 const fetchCurrentWeather = async () => {
@@ -190,6 +195,13 @@ const displayForecastData = (forecastObjectArray: Forecast[]) => {
 
 }
 
+//function for changing city name depending on input from user
+
+
+
+
+
+
 
 // eventlistener for button to show/hide forecast
 toggleForecastButton.addEventListener('click', () => {
@@ -203,3 +215,4 @@ toggleForecastButton.addEventListener('click', () => {
 fetchCurrentWeather()
 
 fetchForecastData()
+

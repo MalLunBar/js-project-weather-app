@@ -36,6 +36,7 @@ const forecastContainer = document.getElementById('forecast-container');
 const toggleForecastButton = document.getElementById('toggle-btn');
 const buttonArrow = document.getElementById('arrow');
 const buttonContainer = document.getElementById('button-container');
+const cityInput = document.getElementById('search-btn');
 // fetch current weather data
 const fetchCurrentWeather = async () => {
     try {
@@ -160,6 +161,14 @@ const displayForecastData = (forecastObjectArray) => {
     `;
     });
 };
+//function for changing city name depending on input from user
+const changeCity = () => {
+    const input = document.getElementById('city-input');
+    const city = input.value;
+    if (!city) {
+        console.log('Please enter a city name');
+    }
+};
 // eventlistener for button to show/hide forecast
 toggleForecastButton.addEventListener('click', () => {
     buttonArrow.classList.toggle('down');
@@ -169,3 +178,6 @@ toggleForecastButton.addEventListener('click', () => {
 });
 fetchCurrentWeather();
 fetchForecastData();
+cityInput.addEventListener('click', () => {
+    console.log('click');
+});
