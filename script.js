@@ -51,13 +51,29 @@ const fetchWeatherForCity = async (city) => {
     const FORECAST_URL = `${BASE_URL}forecast?q=${currentCity}&units=${UNITS}&APPID=${API_KEY}`;
     try {
         //fetch current weather
+        const currentWeatherResponse = await fetch(CURRENT_URL);
+        if (!currentWeatherResponse.ok) {
+            if (currentWeatherResponse.status === 404) {
+                throw new Error('City not found! Please enter a valid city.');
+            }
+            else {
+                throw new Error(`Something went wrong! Status: ${currentWeatherResponse.status}`);
+            }
+        }
+        const forecastResponse = await fetch(FORECAST_URL);
+        if (!forecastResponse.ok) {
+            throw new Error(`Something went wrong! Status: ${forecastResponse.status}`);
+        }
         await fetchCurrentWeather(CURRENT_URL);
         await fetchForecastData(FORECAST_URL);
-        //HÄR måste vi tömma diven om vi skapar en div för felmeddelande
+        //clear error message
+        errorMessages.innerHTML = '';
+        errorContainer.classList.remove('show');
     }
     catch (error) {
         console.log('Error:', error);
-        console.log('Error message: city doesnt exist');
+        errorMessages.innerHTML = error.message;
+        errorContainer.classList.add('show');
     }
 };
 // fetch current weather data

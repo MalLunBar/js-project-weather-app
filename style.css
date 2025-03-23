@@ -11,7 +11,6 @@ body {
   font-weight: 300;
   display: flex;
   justify-content: center;
-
 }
 
 header {
@@ -28,8 +27,6 @@ header {
   flex-grow: 1;
   width: 100%;
   gap: 10px;
-
-
 }
 
 .search-bar {
@@ -43,7 +40,6 @@ header {
   background-color: #f6f6f6;
   transition: box-shadow 0.25s;
   color: #7b7979;
-
 }
 
 .search-bar:focus-within {
@@ -86,7 +82,6 @@ header {
   transition: 300ms;
   clip-path: none;
   justify-content: space-evenly;
-
 }
 
 .current-weather-background.night {
@@ -100,19 +95,16 @@ header {
   filter: invert(1);
 }
 
-
-
 .current-weather-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .weather-icon-container {
   width: 50%;
-
-
+  max-height: 100px;
+  max-width: 160px;
 }
 
 .weather-icon-container img {
@@ -122,17 +114,13 @@ header {
 
 .current-weather-top {
   display: flex;
-  gap: 10%;
-
-
-
+  gap: 5%;
+  justify-content: center;
 }
 
 .local-sun-info {
   display: flex;
   gap: 20px;
-
-
 }
 
 .button-container {
@@ -150,7 +138,6 @@ header {
 .button-container.full {
   align-items: flex-end;
   bottom: 5%;
-
 }
 
 .toggle-forecast-btn {
@@ -178,9 +165,6 @@ header {
   transition: 300ms;
 }
 
-
-
-
 /* Paragraphs */
 .celcius {
   font-size: 30px;
@@ -199,8 +183,7 @@ header {
   font-size: 18px;
 }
 
-
-/* nedre delen med forecasten */
+/* Forecast */
 
 .forecast-container {
   background-color: lavender;
@@ -208,7 +191,6 @@ header {
   display: none;
   margin-top: 20px;
   padding: 0 30px;
-
 }
 
 .forecast-container.show {
@@ -222,13 +204,11 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
 }
 
 .forecast-icon {
   width: 35px;
   height: 35px;
-
 }
 
 /* error messages */
@@ -238,7 +218,6 @@ header {
   color: red;
   font-size: 14px;
   margin-top: 10px;
-  
 }
 
 .error-message.show {
@@ -261,6 +240,10 @@ header {
   button {
     width: 75px;
     height: 75px;
+  }
+
+  .current-weather-background {
+    justify-content: space-evenly;
   }
 
   .celcius {
