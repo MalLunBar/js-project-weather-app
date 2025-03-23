@@ -26,8 +26,6 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1';
 const UNITS = 'metric';
 const CITY = 'stockholm';
-const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
-const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`;
 // DOM elements
 const currentWeatherBackground = document.getElementById('current-weather-background');
 const currentWeather = document.getElementById('current-weather-top');
@@ -36,11 +34,35 @@ const forecastContainer = document.getElementById('forecast-container');
 const toggleForecastButton = document.getElementById('toggle-btn');
 const buttonArrow = document.getElementById('arrow');
 const buttonContainer = document.getElementById('button-container');
-const cityInput = document.getElementById('search-btn');
-// fetch current weather data
-const fetchCurrentWeather = async () => {
+const cityInput = document.getElementById('search-bar');
+const searchButton = document.getElementById('search-btn');
+// const errorMessage = document.getElementById('error-message') as HTMLParagraphElement
+//test function to fetch weather depending on user input
+const fetchWeatherForCity = async (city) => {
+    console.log("jag kör fetchWeatherForCity");
+    if (!city.trim()) {
+        //här bör vi ha att en div skapas eller nått med felmeddelande eller alert 
+        console.log('Please enter a city');
+        return;
+    }
+    const currentCity = city.trim();
+    const CURRENT_URL = `${BASE_URL}weather?q=${currentCity}&units=${UNITS}&APPID=${API_KEY}`;
+    const FORECAST_URL = `${BASE_URL}forecast?q=${currentCity}&units=${UNITS}&APPID=${API_KEY}`;
     try {
-        const response = await fetch(CURRENT_URL);
+        //fetch current weather
+        await fetchCurrentWeather(CURRENT_URL);
+        await fetchForecastData(FORECAST_URL);
+        //HÄR måste vi tömma diven om vi skapar en div för felmeddelande
+    }
+    catch (error) {
+        console.log('Error:', error);
+    }
+};
+// fetch current weather data
+const fetchCurrentWeather = async (url) => {
+    try {
+        console.log("jag är innanför try");
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Error! Status: ${response.status}`);
         }
@@ -106,9 +128,9 @@ const isNight = (sunriseTimestamp, sunsetTimestamp) => {
     }
 };
 //Fetch forecast data 
-const fetchForecastData = async () => {
+const fetchForecastData = async (url) => {
     try {
-        const response = await fetch(FORECAST_URL);
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`error status: ${response.status}`);
         }
@@ -138,6 +160,7 @@ const fetchForecastData = async () => {
         displayForecastData(forecastObjects);
     }
     catch (error) {
+        //ändra här så att vi visar diven med felmeddelande
         console.error(`error: ${error}`);
     }
 };
@@ -161,14 +184,6 @@ const displayForecastData = (forecastObjectArray) => {
     `;
     });
 };
-//function for changing city name depending on input from user
-const changeCity = () => {
-    const input = document.getElementById('city-input');
-    const city = input.value;
-    if (!city) {
-        console.log('Please enter a city name');
-    }
-};
 // eventlistener for button to show/hide forecast
 toggleForecastButton.addEventListener('click', () => {
     buttonArrow.classList.toggle('down');
@@ -176,8 +191,11 @@ toggleForecastButton.addEventListener('click', () => {
     currentWeatherBackground.classList.toggle('full');
     forecastContainer.classList.toggle('show');
 });
-fetchCurrentWeather();
-fetchForecastData();
-cityInput.addEventListener('click', () => {
-    console.log('click');
+fetchWeatherForCity(CITY);
+//eventlistener for search button
+searchButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    const city = cityInput.value;
+    fetchWeatherForCity(city);
+    console.log(city);
 });

@@ -41,8 +41,7 @@ const BASE_URL = 'https://api.openweathermap.org/data/2.5/'
 const API_KEY = '34b8b0ad1c772a50e7652217be753ce1'
 const UNITS = 'metric'
 const CITY = 'stockholm'
-const CURRENT_URL = `${BASE_URL}weather?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
-const FORECAST_URL = `${BASE_URL}forecast?q=${CITY}&units=${UNITS}&APPID=${API_KEY}`
+
 
 // DOM elements
 const currentWeatherBackground = document.getElementById('current-weather-background') as HTMLDivElement
@@ -52,16 +51,40 @@ const forecastContainer = document.getElementById('forecast-container') as HTMLD
 const toggleForecastButton = document.getElementById('toggle-btn') as HTMLButtonElement
 const buttonArrow = document.getElementById('arrow') as HTMLButtonElement
 const buttonContainer = document.getElementById('button-container') as HTMLDivElement
-const cityInput = document.getElementById('search-btn') as HTMLInputElement
+const cityInput = document.getElementById('search-bar') as HTMLInputElement
+const searchButton = document.getElementById('search-btn') as HTMLButtonElement
+// const errorMessage = document.getElementById('error-message') as HTMLParagraphElement
 
 
+//test function to fetch weather depending on user input
+const fetchWeatherForCity = async (city: string) => {
+  console.log("jag kör fetchWeatherForCity")
+  if (!city.trim()) {
+    //här bör vi ha att en div skapas eller nått med felmeddelande eller alert 
+    console.log('Please enter a city')
+    return
+  }
+  const currentCity = city.trim()
+  const CURRENT_URL = `${BASE_URL}weather?q=${currentCity}&units=${UNITS}&APPID=${API_KEY}`
+  const FORECAST_URL = `${BASE_URL}forecast?q=${currentCity}&units=${UNITS}&APPID=${API_KEY}`
+  try {
+    //fetch current weather
+    await fetchCurrentWeather(CURRENT_URL)
 
+    await fetchForecastData(FORECAST_URL)
+
+    //HÄR måste vi tömma diven om vi skapar en div för felmeddelande
+  } catch (error) {
+    console.log('Error:', error)
+  }
+
+}
 
 
 // fetch current weather data
-const fetchCurrentWeather = async () => {
+const fetchCurrentWeather = async (url: string) => {
   try {
-    const response = await fetch(CURRENT_URL)
+    const response = await fetch(url)
     if (!response.ok) {
       throw new Error(`Error! Status: ${response.status}`)
     }
@@ -135,9 +158,9 @@ const isNight = (sunriseTimestamp: number, sunsetTimestamp: number): boolean => 
 }
 
 //Fetch forecast data 
-const fetchForecastData = async () => {
+const fetchForecastData = async (url: string) => {
   try {
-    const response = await fetch(FORECAST_URL)
+    const response = await fetch(url)
 
     if (!response.ok) {
       throw new Error(`error status: ${response.status}`)
@@ -169,6 +192,7 @@ const fetchForecastData = async () => {
     displayForecastData(forecastObjects)
 
   } catch (error) {
+    //ändra här så att vi visar diven med felmeddelande
     console.error(`error: ${error}`)
   }
 }
@@ -195,14 +219,6 @@ const displayForecastData = (forecastObjectArray: Forecast[]) => {
 
 }
 
-//function for changing city name depending on input from user
-
-
-
-
-
-
-
 // eventlistener for button to show/hide forecast
 toggleForecastButton.addEventListener('click', () => {
   buttonArrow.classList.toggle('down')
@@ -211,8 +227,17 @@ toggleForecastButton.addEventListener('click', () => {
   forecastContainer.classList.toggle('show')
 })
 
+fetchWeatherForCity(CITY)
 
-fetchCurrentWeather()
 
-fetchForecastData()
+//eventlistener for search button
+searchButton.addEventListener('click', (event) => {
+  event.preventDefault();
+  const city = cityInput.value
+  fetchWeatherForCity(city)
+  console.log(city)
+})
+
+
+
 
