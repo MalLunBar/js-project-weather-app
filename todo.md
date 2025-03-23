@@ -16,6 +16,7 @@ How to get icon URL:
 https://openweathermap.org/img/wn/[ICON_CODE]@2x.png
 
 If time:
+[] Set default stad till current location
 [] Se till att man kan ändra stad kanske? Var får vi staden i så fall ifrån? - sökfunktion
 [] Celcius är inte där den ska (i paragrafen) - flex kanske
 [] små design fix - text size, solarna är ej alignade

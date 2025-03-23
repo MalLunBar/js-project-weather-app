@@ -11,7 +11,7 @@ body {
   font-weight: 300;
   display: flex;
   justify-content: center;
-  
+
 }
 
 .screen {
@@ -47,11 +47,11 @@ header {
 
 }
 
-.hamburger {
+.search-icon {
   margin: 15px;
-  width: 33px;
+  width: 30px;
   background: none;
-  color: white;
+  filter: invert(1);
 }
 
 
@@ -176,7 +176,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
 }
 
 .forecast-icon {
