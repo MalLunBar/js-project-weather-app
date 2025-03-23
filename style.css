@@ -10,7 +10,7 @@ body {
   font-family: Roboto;
   font-weight: 300;
   display: flex;
-  /* justify-content: center; */
+  justify-content: center;
 
 }
 
@@ -72,6 +72,8 @@ header {
 }
 
 .current-weather-background {
+  display: flex;
+  flex-direction: column;
   background-image: linear-gradient(to right, #8589FF, #E8E9FF);
   clip-path: ellipse(100% 100% at top);
   width: 100%;
@@ -83,6 +85,8 @@ header {
   height: 100%;
   transition: 300ms;
   clip-path: none;
+  justify-content: space-evenly;
+
 }
 
 .current-weather-background.night {
@@ -229,6 +233,10 @@ header {
 
 @media (min-width: 400px) {
   /* Paragraphs */
+
+  .search-bar {
+    height: 45px;
+  }
 
   .button-container {
     position: sticky;
