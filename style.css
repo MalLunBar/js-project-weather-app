@@ -231,6 +231,20 @@ header {
 
 }
 
+/* error messages */
+.error-message {
+  position: absolute;
+  display: none;
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  
+}
+
+.error-message.show {
+  display: block;
+}
+
 @media (min-width: 400px) {
   /* Paragraphs */
 

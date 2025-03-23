@@ -53,15 +53,17 @@ const buttonArrow = document.getElementById('arrow') as HTMLButtonElement
 const buttonContainer = document.getElementById('button-container') as HTMLDivElement
 const cityInput = document.getElementById('search-bar') as HTMLInputElement
 const searchButton = document.getElementById('search-btn') as HTMLButtonElement
-// const errorMessage = document.getElementById('error-message') as HTMLParagraphElement
+const errorContainer = document.getElementById('error-message') as HTMLDivElement
+const errorMessages = document.getElementById('error-message-text') as HTMLDivElement
 
 
-//test function to fetch weather depending on user input
+//function to fetch weather depending on user input
 const fetchWeatherForCity = async (city: string) => {
-  console.log("jag kör fetchWeatherForCity")
+  //if city is empty, show error message
   if (!city.trim()) {
-    //här bör vi ha att en div skapas eller nått med felmeddelande eller alert 
-    console.log('Please enter a city')
+
+    errorMessages.innerHTML = 'Please enter a city'
+    errorContainer.classList.add('show')
     return
   }
   const currentCity = city.trim()
@@ -76,6 +78,7 @@ const fetchWeatherForCity = async (city: string) => {
     //HÄR måste vi tömma diven om vi skapar en div för felmeddelande
   } catch (error) {
     console.log('Error:', error)
+    console.log('Error message: city doesnt exist')
   }
 
 }
@@ -235,9 +238,13 @@ searchButton.addEventListener('click', (event) => {
   event.preventDefault();
   const city = cityInput.value
   fetchWeatherForCity(city)
-  console.log(city)
+  cityInput.value = ''
+
 })
 
-
+//make sure error message disappears when user starts typing
+cityInput.addEventListener('input', () => {
+  errorContainer.classList.remove('show')
+})
 
 
