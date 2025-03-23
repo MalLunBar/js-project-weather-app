@@ -36,11 +36,25 @@
       class="current-weather-background full"
     >
       <header>
-        <img
-          class="search-icon"
-          src="./assets/search.svg"
-          alt="search-icon"
-        >
+        <form>
+          <div class="search-bar-container">
+            <!-- using aria-label instead of label -->
+            <input
+              type="search"
+              id="search-bar"
+              class="search-bar"
+              placeholder="Search"
+              aria-label="Search"
+            >
+            <button
+              type="search"
+              class="search-btn"
+              id="search-btn"
+            >
+            </button>
+          </div>
+        </form>
+
       </header>
 
       <section

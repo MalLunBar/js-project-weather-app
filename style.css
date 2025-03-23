@@ -10,9 +10,61 @@ body {
   font-family: Roboto;
   font-weight: 300;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 
 }
+
+header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 10px 0;
+  justify-content: center;
+}
+
+
+.search-bar-container {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  gap: 10px;
+
+
+}
+
+.search-bar {
+  flex-grow: 1;
+  width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 28px;
+  padding: 5px 0 5px 10px;
+  font-size: 16px;
+  background-color: #f6f6f6;
+  transition: box-shadow 0.25s;
+  color: #7b7979;
+
+}
+
+.search-bar:focus-within {
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.65);
+}
+
+.search-bar::placeholder {
+  color: rgba(24, 15, 86, 0.25);
+}
+
+.search-btn {
+  background: url(./assets/search.svg) center/contain no-repeat;
+  border: none;
+  width: 25px;
+  height: 25px;
+  filter: invert(1);
+
+
+}
+
 
 .screen {
   background-color: lavender;
@@ -42,10 +94,6 @@ body {
   background-image: linear-gradient(to right, #060965, #575a95);
 }
 
-header {
-  display: flex;
-
-}
 
 .search-icon {
   margin: 15px;
@@ -107,7 +155,7 @@ header {
 
 }
 
-button {
+.toggle-forecast-btn {
   width: 60px;
   height: 60px;
   border: none;
